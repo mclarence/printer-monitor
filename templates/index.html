@@ -1,0 +1,149 @@
+<html>
+<head>
+    <style>
+        html {
+          font-family: Arial, sans-serif;
+          font-size: 16px;
+          color: #333;
+          background-color: #f0f0f0;
+          margin: 0;
+          padding: 0;
+        }
+
+        .progress-bar {
+          width: 100%;
+          background-color: #f0f0f0;
+          border-radius: 5px;
+          margin-bottom: 10px;
+          overflow: hidden;
+          position: relative;
+        }
+      
+        .progress-bar .progress {
+          height: 20px;
+          line-height: 20px;
+          color: #fff;
+          text-align: left;
+          transition: width 0.5s ease;
+          padding: 0 10px;
+          box-sizing: border-box;
+          position: relative;
+          white-space: nowrap; /* Prevent text from wrapping */
+        }
+      
+        .progress-bar.c .progress {
+          background-color: #00FFFF; /* Cyan */
+          color: #000;
+        }
+
+        .progress-bar.y .progress {
+          background-color: #FFFF00; /* Yellow */
+          color: #000;
+        }
+      
+        .progress-bar.m .progress {
+          background-color: #FF00FF; /* Magenta */
+        }
+      
+        .progress-bar.k .progress {
+          background-color: #000; /* Black */
+        }
+
+        .progress-bar .progress span {
+          position: absolute;
+          left: 10px;
+          white-space: nowrap; /* Prevent text from wrapping */
+        }
+
+        .progress-bar .progress span.in-bar {
+          position: absolute;
+          left: 10px;
+          white-space: nowrap; /* Prevent text from wrapping */
+        }
+
+        .progress-bar .progress span.out-bar {
+          position: relative;
+          left: 105%;
+          white-space: nowrap; /* Prevent text from wrapping */
+          color: #000;
+        }
+
+        .progress-bar.c .progress span.out-bar,
+        .progress-bar.y .progress span.out-bar {
+          color: #000;
+        }
+
+        #printers {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          padding: 5px;
+        }
+
+        .printer {
+            width: 300px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 5px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="printers">
+    {% for printer, details in printers.items() %}
+        <div class="printer">
+            <h3 style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">{{ printer }}</h3>
+            <a href="http://{{ details['hostname'] }}" target="_blank">{{details['hostname']}}</a>
+
+            <h4>Toner</h4>
+            <div class="progress-bar c">
+                <div class="progress" style="width: {{ details['toner']['c'] }}%;">
+                    <span class="{{ 'in-bar' if details["toner"]["c"] > 10 else 'out-bar' }}">C: {{ details["toner"]["c"] }}%</span>
+                </div>
+            </div>
+            <div class="progress-bar m">
+                <div class="progress" style="width: {{ details['toner']['m'] }}%;">
+                    <span class="{{ 'in-bar' if details["toner"]["m"] > 10 else 'out-bar' }}">M: {{ details["toner"]["m"] }}%</span>
+                </div>
+            </div>
+            <div class="progress-bar y">
+                <div class="progress" style="width: {{ details['toner']['y'] }}%;">
+                    <span class="{{ 'in-bar' if details["toner"]["y"] > 10 else 'out-bar' }}">Y: {{ details["toner"]["y"] }}%</span>
+                </div>
+            </div>
+            <div class="progress-bar k">
+                <div class="progress" style="width: {{ details['toner']['k'] }}%;">
+                    <span class="{{ 'in-bar' if details["toner"]["k"] > 10 else 'out-bar' }}">K: {{ details["toner"]["k"] }}%</span>
+                </div>
+            </div>
+
+            <h4>Drum</h4>
+            <div class="progress-bar c">
+                <div class="progress" style="width: {{ details['drum']['c'] }}%;">
+                    <span class="{{ 'in-bar' if details["drum"]["c"] > 10 else 'out-bar' }}">C: {{ details["drum"]["c"] }}%</span>
+                </div>
+            </div>
+            <div class="progress-bar y">
+                <div class="progress" style="width: {{ details['drum']['y'] }}%;">
+                    <span class="{{ 'in-bar' if details["drum"]["y"] > 10 else 'out-bar' }}">Y: {{ details["drum"]["y"] }}%</span>
+                </div>
+            </div>
+            <div class="progress-bar m">
+                <div class="progress" style="width: {{ details['drum']['m'] }}%;">
+                    <span class="{{ 'in-bar' if details["drum"]["m"] > 10 else 'out-bar' }}">M: {{ details["drum"]["m"] }}%</span>
+                </div>
+            </div>  
+            <div class="progress-bar k">
+                <div class="progress" style="width: {{ details['drum']['k'] }}%;">
+                    <span class="{{ 'in-bar' if details["drum"]["k"] > 10 else 'out-bar' }}">K: {{ details["drum"]["k"] }}%</span>
+                </div>
+            </div>  
+
+
+        </div>
+    {% endfor %}
+    </div>
+</body>
+</html>
